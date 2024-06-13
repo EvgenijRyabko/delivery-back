@@ -1,24 +1,24 @@
+import { USERS_REPO } from '@common/constants';
+import { UserEntity } from '@entities/user.entity';
 import { Inject, Injectable } from '@nestjs/common';
-import { User } from '@prisma/client';
-import { USERS_REPO } from 'src/common/constants';
 
 import { IUsersRepo } from './users.repo';
 
 export interface IUsersService {
-  getAllUsers(): Promise<User[]>;
+  getAllUsers(): Promise<UserEntity[]>;
 
-  createUser(user: User): Promise<void>;
+  createUser(user: UserEntity): Promise<void>;
 }
 
 @Injectable()
 export class UsersService {
   constructor(@Inject(USERS_REPO) private readonly usersRepo: IUsersRepo) {}
 
-  async getAllUsers(): Promise<User[]> {
+  async getAllUsers() {
     return await this.usersRepo.getAllUsers();
   }
 
-  async createUser(user: User): Promise<void> {
+  async createUser(user: UserEntity) {
     return await this.usersRepo.createUser(user);
   }
 }

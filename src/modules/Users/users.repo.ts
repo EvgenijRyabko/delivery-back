@@ -1,22 +1,23 @@
+import { UserEntity } from '@entities/user.entity';
 import { Injectable } from '@nestjs/common';
-import { User } from '@prisma/client';
-import { PrismaService } from 'src/database/prisma.service';
+import { Knex } from 'knex';
+import { InjectConnection } from 'nest-knexjs';
 
 export interface IUsersRepo {
-  getAllUsers(): Promise<User[]>;
+  getAllUsers(): Promise<UserEntity[]>;
 
-  createUser(user: User): Promise<void>;
+  createUser(user: UserEntity): Promise<void>;
 }
 
 @Injectable()
 export class UsersRepo {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(@InjectConnection() private readonly knex: Knex) {}
 
-  async getAllUsers(): Promise<User[]> {
-    return await this.prisma.user.findMany();
+  async getAllUsers() {
+    return await this.knex('users');
   }
 
-  async createUser(user: User): Promise<void> {
-    await this.prisma.user.create({ data: user });
+  async createUser(user: UserEntity) {
+    await this.knex('users').insert(user);
   }
 }

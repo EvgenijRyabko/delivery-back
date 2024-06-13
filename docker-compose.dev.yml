@@ -1,4 +1,4 @@
-version: '3.5'
+version: '3.7'
 
 services:
   db:
@@ -10,7 +10,7 @@ services:
       - POSTGRES_PASSWORD=${PG_PASSWORD}
     container_name: delivery-db
     volumes:
-      - './postgres/db_data:/var/www/api/postgresql/data'
+      - './db_data:/var/www/api/postgresql/data'
     networks:
         - 'delivery_network'
     ports:

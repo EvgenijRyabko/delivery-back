@@ -18,16 +18,17 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "knex:make": "knex --knexfile src/database/migration.ts migrate:make -x ts",
-    "knex:seed": "knex --knexfile src/database/migration.ts seed:make -x ts",
-    "knex:migrate": "knex --knexfile src/database/migration.ts migrate:latest",
-    "knex:rollback": "knex --knexfile src/database/migration.ts migrate:rollback"
+    "knex:make": "knex --knexfile src/database/database.module.ts migrate:make -x ts",
+    "knex:seed": "knex --knexfile src/database/database.module.ts seed:make -x ts",
+    "knex:migrate": "knex --knexfile src/database/database.module.ts migrate:latest",
+    "knex:rollback": "knex --knexfile src/database/database.module.ts migrate:rollback"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
     "@nestjs/core": "^10.0.0",
     "@nestjs/platform-express": "^10.0.0",
     "@prisma/client": "^5.15.0",
+    "class-validator": "^0.14.1",
     "dotenv": "^16.4.5",
     "knex": "^3.1.0",
     "nest-knexjs": "^0.0.22",

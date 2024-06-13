@@ -1,5 +1,6 @@
 import 'dotenv/config';
 
+import { BadRequestException, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 
 import { AppModule } from './app.module';
@@ -9,7 +10,27 @@ async function bootstrap() {
 
   app.setGlobalPrefix('api');
 
-  await app.listen(process.env.APP_PORT);
+  app.useGlobalPipes(
+    new ValidationPipe({
+      exceptionFactory: (errors) => {
+        const formattedErrors = errors.map((error) => ({
+          field: error.property,
+          message: error.constraints
+            ? Object.values(error.constraints)
+            : 'Validation failed',
+        }));
+
+        return new BadRequestException({
+          statusCode: 400,
+          message: 'Validation failed',
+          errors: formattedErrors,
+        });
+      },
+      stopAtFirstError: false,
+    }),
+  );
+
+  await app.listen(process.env.APP_PORT || 'localhost');
 }
 
 bootstrap().then(() => {
