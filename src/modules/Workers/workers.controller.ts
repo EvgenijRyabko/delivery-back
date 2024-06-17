@@ -1,6 +1,14 @@
 import { WORKER_SERVICE } from '@common/constants';
 import { WorkerEntity } from '@entities/worker.entity';
-import { Body, Controller, Get, Inject, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Inject,
+  Param,
+  Post,
+} from '@nestjs/common';
 
 import { IWorkersService } from './workers.service';
 
@@ -20,5 +28,10 @@ export class WorkersController implements IWorkersController {
   @Post('create')
   async createWorker(@Body() worker: WorkerEntity) {
     return await this.workersService.createWorker(worker);
+  }
+
+  @Delete('remove/:id')
+  async deleteWorker(@Param('id') workerId: number) {
+    return workerId;
   }
 }
